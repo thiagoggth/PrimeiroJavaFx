@@ -14,8 +14,8 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			
-			Pane root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLTela.fxml"));
-			Scene scene = new Scene(root, 300, 200);
+			Pane root = FXMLLoader.load(getClass().getClassLoader().getResource("view/fxmltela/FXMLTela.fxml"));
+			Scene scene = new Scene(root, 1280, 720);
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			
