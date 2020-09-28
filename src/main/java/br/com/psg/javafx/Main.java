@@ -5,10 +5,8 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
+import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
-import services.UsuarioService;
-import view.listusers.ListUsersController;
 
 public class Main extends Application {
 
@@ -17,20 +15,21 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+
+			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/main/Main.fxml"));
+
+			ScrollPane scroolPane = loader.load();
 			
-			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/listusers/ListUsers.fxml"));
+			scroolPane.setFitToHeight(true);
+			scroolPane.setFitToWidth(true);
+
+			mainScene = new Scene(scroolPane);
 			
-			Pane root = loader.load();
-			Scene scene = new Scene(root, 1280, 720);
-			primaryStage.setScene(scene);
+			primaryStage.setScene(mainScene);
+			primaryStage.setTitle("System undefined");
 			primaryStage.show();
-			
-			ListUsersController controller = loader.getController();
-			controller.setUsuarioService(new UsuarioService());
-			controller.updateTableView();
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

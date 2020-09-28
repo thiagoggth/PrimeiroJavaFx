@@ -5,8 +5,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
-import br.com.psg.utils.JPAUltil;
 import br.com.psg.utils.ClassName;
+import br.com.psg.utils.JPAUltil;
 
 public class DaoGeneric<E> {
 
@@ -21,6 +21,17 @@ public class DaoGeneric<E> {
 
 		entityTransaction.commit();
 		entityManager.close();
+	}
+
+	public E updateMerge(E entity) {
+		EntityManager entityManager = JPAUltil.getEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
+
+		transaction.begin();
+		E entitySaved = entityManager.merge(entity);
+		transaction.commit();
+
+		return entitySaved;
 	}
 
 	// Generic method that will get all registers in database
@@ -50,6 +61,21 @@ public class DaoGeneric<E> {
 		E e = (E) entityManager.find(entity.getClass(), id);
 
 		return e;
+
+	}
+
+	public void deleteById(E entity) {
+		Object id = JPAUltil.getPrimaryKey(entity);
+		EntityManager entityManager = JPAUltil.getEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
+
+		transaction.begin();
+
+		entityManager
+				.createQuery("delete from " + entity.getClass().getSimpleName()+ " where id = " + id)
+				.executeUpdate();
+
+		transaction.commit();
 
 	}
 }
